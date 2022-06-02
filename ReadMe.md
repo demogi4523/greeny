@@ -29,9 +29,14 @@ $ pytest
 $ pwd
 ~/greeny
 $ poetry show
+Creating virtualenv ...-py3.8 in .venv
+$ source .venv/...-py3.8/bin/activate
 $ poetry install
 $ poetry run uvicorn app.main:app --reload
 ```
+
+Также можно делать запросы через fastapi openapid в браузере по адресу *http://localhost:8000/docs*
+Или просмотреть веб-консоль minio по aдресу *http://localhost:9001/login* или *http://localhost:9000*
 
 ## Состояние проекта
 На данном этапе на проекте не реализована сторонняя авторизация.
@@ -39,3 +44,11 @@ $ poetry run uvicorn app.main:app --reload
 minio python SDK не поддерживает управление пользователями ([ссылка](https://github.com/minio/minio-js/issues/814#issuecomment-554975323))
 
 Если существует обходной путь, просьба сообщить мне 
+
+Из минусов:
+
+1)  Отсутствие модели пользователей
+2)  Отсутствие линтинга
+3)  Отсутствие precommit hooks
+
+Предложения по улучшению приветствуются :)
