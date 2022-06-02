@@ -12,6 +12,9 @@ minio = "^7.1.8"
 pytest = "^7.1.2"
 peewee = "^3.14.10"
 psycopg2-binary = "^2.9.3"
+Pillow = "^9.1.1"
+requests = "^2.27.1"
+python-multipart = "^0.0.5"
 
 [tool.poetry.dev-dependencies]
 

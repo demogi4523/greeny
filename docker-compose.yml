@@ -1,0 +1,49 @@
+version: '2'
+services:
+  db:
+    image: "postgres"
+    container_name: pg
+    ports:
+      - "5432:5432"
+    networks:
+      - default
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: storage_db
+
+  minio:
+    image: "quay.io/minio/minio"
+    container_name: minioo
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - default
+    environment:
+      MINIO_ACCESS_KEY: user1
+      MINIO_SECRET_KEY: password1
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: qwerty123
+
+  app:
+    build: ./
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - minio
+    networks:
+      - default
+    links:
+      - db
+      - minio
+
+networks:
+  default:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450

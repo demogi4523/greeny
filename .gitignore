@@ -1,0 +1,6 @@
+__pycache__
+.editorconfig
+.venv
+.pytest_cache
+.vscode
+tests.db
