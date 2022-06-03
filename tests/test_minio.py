@@ -64,6 +64,17 @@ def test_add_get_delete_photos():
     assert 'creation_datetime' in photos[0]
     assert 'creation_datetime' in photos[1]
 
+    response = test_client.delete(f'/frames/{req_code}')
+    assert response.status_code == 200
+    assert json.loads(response.content).get("status") == "deleted"
+
+    response = test_client.get(f'/frames/{req_code}')
+    assert response.status_code == 200
+    status = json.loads(response.content).get("status")
+    print(status)
+    assert status == BadRequestCodeError
+
+
 def test_add_not_jpeg_photo_deny():
     photo_name = 'tests/test3.png'
     photos = (photo_name, open(photo_name, 'rb'), 'image/jpeg')

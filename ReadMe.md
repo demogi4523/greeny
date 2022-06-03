@@ -32,6 +32,17 @@ $ poetry show
 Creating virtualenv ...-py3.8 in .venv
 $ source .venv/...-py3.8/bin/activate
 $ poetry install
+$ docker run \
+  -p 9000:9000 \
+  -p 9001:9001 \
+  --rm \
+  -e "MINIO_ROOT_USER=root" \
+  -e "MINIO_ROOT_PASSWORD=qwerty123" \
+  quay.io/minio/minio server /data --console-address ":9001"
+$ docker run -d \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -p 5432:5432 \
+  postgres
 $ poetry run uvicorn app.main:app --reload
 ```
 
