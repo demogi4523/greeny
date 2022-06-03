@@ -46,8 +46,7 @@ $ docker run -d \
 $ poetry run uvicorn app.main:app --reload
 ```
 
-Также можно делать запросы через fastapi openapid в браузере по адресу *http://localhost:8000/docs*
-Или просмотреть веб-консоль minio по aдресу *http://localhost:9001/login* или *http://localhost:9000*
+Также можно делать запросы через fastapi openapid в браузере по адресу *http://localhost:8000/docs*. Либо просмотреть веб-консоль minio по aдресу *http://localhost:9001/login* или *http://localhost:9000*
 
 ## Состояние проекта
 На данном этапе на проекте не реализована сторонняя авторизация.
