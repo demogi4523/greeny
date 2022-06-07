@@ -1,24 +1,39 @@
 import io
 import base64
 from datetime import datetime
-from uuid import uuid4
 from typing import List
+from uuid import uuid4
 
-from fastapi import FastAPI, File
+from fastapi import (
+    FastAPI, File,
+)
 from fastapi.responses import RedirectResponse
+
+
 from PIL import Image
 import requests as r
 
 from app.custom_errors import BadRequestCodeError, PhotosFormatError, PhotosLimitError
-from app.models import RequestCode, Data, px
+from app.models import (
+    RequestCode, Data, main_px, 
+    User, auth_px,
+)
+from app.auth import add_auth_to_app
+
+
+
+
 
 def create_app(db, minio_client, config):
-    px.initialize(db)
+    main_px.initialize(db)
+    auth_px.initialize(db)
 
     client_id = config.oauth2_github_client_id
     client_secret = config.oauth2_github_client_secret
 
     app = FastAPI()
+
+    add_auth_to_app(app)
 
     @app.get("/q")
     def intermediate_oauth2_page(code: str):
@@ -138,9 +153,19 @@ def create_app(db, minio_client, config):
         db.create_tables([
             RequestCode,
             Data,
+            User,
         ], safe=True)
         db.close()
         db.connect()
+
+        User.get_or_create(
+            username = 'test',
+            hashed_password = '$2b$12$S7d3IY6iYaZw00VnWQ0N8eZekQkRnWn4QOC.VNWLxaqiYAZ3rvvQu',
+            email = 'test@example.com', # add email validation
+            full_name = '',
+            disabled = False,
+        )
+        User.get_or_none()
 
     @app.on_event("shutdown")        
     def db_shutdown():
